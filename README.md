@@ -15,6 +15,6 @@ $ yarn start
 
 
 ### Todo
-[ ] managing todo content status  
-[ ] use localStorage or Todo api server (maybe...nest or firebase)  
-[ ] design
+- [x] managing todo content status  
+- [ ] use localStorage or Todo api server (maybe...nest or firebase)  
+- [ ] design
