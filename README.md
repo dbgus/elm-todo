@@ -8,7 +8,7 @@ $~$
 ## how to run
 
 ```shell
-$ git cline 
+$ git clone https://github.com/dbgus/elm-todo.git
 $ cd elm-todo
 $ yarn start
 ```
