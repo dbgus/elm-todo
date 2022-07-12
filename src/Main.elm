@@ -4,10 +4,11 @@ import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Todo exposing (Todo)
 import Json.Decode as Json
+import Todo exposing (Todo)
 
 
+main : Program () Model Event
 main =
     Browser.sandbox
         { init = init
@@ -42,7 +43,15 @@ update event model =
             { model | newTodo = value }
 
         Submit ->
-            { model | todo = Todo model.newTodo False :: model.todo, newTodo = "" }
+            { model
+                | todo =
+                    if String.isEmpty model.newTodo then
+                        model.todo
+
+                    else
+                        Todo model.newTodo False :: model.todo
+                , newTodo = ""
+            }
 
         Complated compltedItemIndex ->
             let
@@ -77,15 +86,17 @@ view model =
         ]
 
 
-onEnter: Event -> Attribute Event
-onEnter msg = 
+onEnter : Event -> Attribute Event
+onEnter msg =
     let
-        isEnter code = 
-            if code == 13 then Json.succeed msg
-            else Json.fail "not Enter"
-    in
-        on "keydown" (Json.andThen isEnter keyCode)
+        isEnter code =
+            if code == 13 then
+                Json.succeed msg
 
+            else
+                Json.fail "not Enter"
+    in
+    on "keydown" (Json.andThen isEnter keyCode)
 
 
 viewTodoItem : Int -> Todo -> Html Event
@@ -102,5 +113,5 @@ viewTodoItem index todo =
                     "미완료"
                 )
             ]
-        , input [ type_ "checkBox", onClick (Complated index) ] [ text "상태 변경" ]
+        , input [ type_ "checkBox", onClick (Complated index) ] []
         ]
