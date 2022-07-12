@@ -5,6 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Todo exposing (Todo)
+import Json.Decode as Json
 
 
 main =
@@ -41,7 +42,7 @@ update event model =
             { model | newTodo = value }
 
         Submit ->
-            { model | todo = Todo model.newTodo False :: model.todo }
+            { model | todo = Todo model.newTodo False :: model.todo, newTodo = "" }
 
         Complated compltedItemIndex ->
             let
@@ -61,7 +62,7 @@ view model =
         [ h1 [ style "text-align" "center" ]
             [ text "Todo: 할 일을 추가해보세요" ]
         , div [ style "margin-top" "50px", style "text-align" "center" ]
-            [ input [ value model.newTodo, onInput TodoUpdate ] []
+            [ input [ value model.newTodo, onInput TodoUpdate, onEnter Submit ] []
             , button [ onClick Submit ] [ text "추가" ]
             ]
         , div [ style "border-top" "1px solid black", style "margin-top" "30px" ]
@@ -74,6 +75,16 @@ view model =
             , div [] (List.indexedMap viewTodoItem model.todo)
             ]
         ]
+
+
+onEnter: Event -> Attribute Event
+onEnter msg = 
+    let
+        isEnter code = 
+            if code == 13 then Json.succeed msg
+            else Json.fail "not Enter"
+    in
+        on "keydown" (Json.andThen isEnter keyCode)
 
 
 
