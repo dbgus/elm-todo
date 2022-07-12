@@ -13,8 +13,12 @@ $ cd elm-todo
 $ yarn start
 ```
 
+## elm install link
 
-### Todo
+`https://guide.elm-lang.org/install/elm.html`
+
+
+## Todo
 - [x] managing todo content status  
 - [ ] use localStorage or Todo api server (maybe...nest or firebase)  
 - [ ] design
